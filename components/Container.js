@@ -13,11 +13,11 @@ export const Container = ({ children, isIndex }) => { // TODO add heading from i
 
     <NextSeo
       title="◌ spec"
-      description="Multi-marketplace NFT sale feed. See what's going on in the Ethereum blockchain."
+      description="Aggregated NFT sales feed & analytics. See what's going on in the Ethereum blockchain."
       openGraph={{
         url: 'https://spec-app.vercel.app/',
-        title: '◌ spec | nft sale feed',
-        description: "Multi-marketplace NFT sale feed. See what's going on in the Ethereum blockchain.",
+        title: '◌ spec',
+        description: "Aggregated NFT sales feed & analytics. See what's going on in the Ethereum blockchain.",
         images: [
           {
             url: '/spec-og-img.png',

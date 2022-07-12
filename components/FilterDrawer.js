@@ -19,7 +19,8 @@ import {
   Tag,
   TagLabel,
   TagCloseButton,
-  useToast
+  useToast,
+  useColorModeValue
 } from '@chakra-ui/react'
 import { FaFilter } from 'react-icons/fa'
 import { useEffect, useRef, useState } from 'react'
@@ -85,7 +86,7 @@ export const FilterDrawer = ({setCollectionFilters, collectionFilters}) => {
       returnFocusOnClose={false}
     >
       <DrawerOverlay />
-      <DrawerContent bg="#0f0f0f">
+      <DrawerContent bg={useColorModeValue("#f7f7f7","#0f0f0f")}>
         <DrawerCloseButton />
         <DrawerHeader>filter by collection</DrawerHeader>
 
@@ -100,9 +101,10 @@ export const FilterDrawer = ({setCollectionFilters, collectionFilters}) => {
               w="full"
               minH="20"
               p="4"
-              bg="whiteAlpha.100"
+              bg={useColorModeValue("blackAlpha.50", "whiteAlpha.100")}
               rounded="md"
-              border="2px dashed #3f3f3f"
+              border="2px dashed"
+              borderColor={useColorModeValue("blackAlpha.300", "#3f3f3f")}
             >
               {collections.map(({collectionId, name}) => 
                 <Tag
