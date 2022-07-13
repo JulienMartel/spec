@@ -1,6 +1,7 @@
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { mode } from '@chakra-ui/theme-tools'
 import Head from 'next/head'
+import { AppWrapper } from '../context/state'
 
 const theme = extendTheme({
   styles: {
@@ -30,7 +31,9 @@ function MyApp({ Component, pageProps }) {
         <meta name="msapplication-config" content="/metadata/browserconfig.xml" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
-      <Component {...pageProps} />
+      <AppWrapper>
+        <Component {...pageProps} />
+      </AppWrapper>
     </ChakraProvider>
   )
 }

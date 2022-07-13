@@ -86,13 +86,7 @@ export default function Home() {
         <Link isExternal href='#'>twitter</Link>
       </Box>
       <Box>
-        <Link isExternal href='#'>submit a bug</Link>
-      </Box>
-      <Box>
-        <Link isExternal href='#'>request a feature</Link>
-      </Box>
-      <Box>
-        <Link isExternal href='#'>donate</Link>
+        <Link isExternal href='#'>discord</Link>
       </Box>
     </HStack>
 

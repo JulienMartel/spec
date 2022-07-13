@@ -20,9 +20,9 @@ export const Container = ({ children, isIndex }) => { // TODO add heading from i
         description: "Aggregated NFT sales feed & analytics. See what's going on in the Ethereum blockchain.",
         images: [
           {
-            url: '/spec-og-img.png',
-            width: 1200,
-            height: 630,
+            url: '/spec-og-img2.png',
+            width: 800,
+            height: 600,
             alt: 'spec',
             type: 'image/png',
           },

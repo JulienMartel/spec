@@ -10,6 +10,7 @@ import {
   Icon,
   Heading,
   Flex,
+  Skeleton,
 } from '@chakra-ui/react'
 import { FaEthereum } from 'react-icons/fa'
 import * as dayjs from 'dayjs'
@@ -17,12 +18,20 @@ import * as relativeTime from 'dayjs/plugin/relativeTime'
 import { AddressBadge } from './AddressBadge'
 import { Platform } from './Platform'
 import NextLink from 'next/link'
+import { useAppContext } from '../context/state'
 
 dayjs.extend(relativeTime)
 
-export const Sale = ({sale}) => {
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2
+})
 
-  const when = dayjs.unix(sale.timestamp).fromNow()
+export const Sale = ({sale}) => {
+  const { ethPrice } = useAppContext()
+
+  // const when = 
   const { token } = sale
 
   return <Tr
@@ -48,10 +57,19 @@ export const Sale = ({sale}) => {
       </Flex>
     </Td>
     <Td isNumeric w="min-content">
-      <Text display="inline" >
-        {sale.price}
-      </Text>
-      <EthLogo orderSide={sale.orderSide} />
+      <Box>
+        <Text fontWeight="medium" display="inline" >
+          {sale.price}
+        </Text>
+        <EthLogo orderSide={sale.orderSide} />
+      </Box>
+      <Skeleton isLoaded={ethPrice}>
+        <Text fontWeight="medium" fontSize="smaller" color={useColorModeValue("blackAlpha.700", "whiteAlpha.600")}>
+          {formatter.format(sale.price * ethPrice)}
+        </Text>
+      </Skeleton>
+      {/* ethPrice */}
+
     </Td>
     <Td>
       <AddressBadge addr={sale.from} />
@@ -63,7 +81,9 @@ export const Sale = ({sale}) => {
       <Platform source={sale.fillSource} addr={token.contract} nftId={token.tokenId} />
     </Td>
     <Td>
-      <Link isExternal href={'https://etherscan.io/tx/' + sale.txHash}>{when}</Link>
+      <Link isExternal href={'https://etherscan.io/tx/' + sale.txHash}>
+        {dayjs.unix(sale.timestamp).fromNow()}
+      </Link>
     </Td>
   </Tr>
 }

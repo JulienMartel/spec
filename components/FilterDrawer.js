@@ -83,7 +83,6 @@ export const FilterDrawer = ({setCollectionFilters, collectionFilters}) => {
       placement='left'
       onClose={onClose}
       finalFocusRef={btnRef}
-      returnFocusOnClose={false}
     >
       <DrawerOverlay />
       <DrawerContent bg={useColorModeValue("#f7f7f7","#0f0f0f")}>
@@ -164,7 +163,7 @@ const FeaturedCollections = ({addToFilter}) => {
   </>
 }
 
-const featured =[
+const featured = [
   {
     "collectionId": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
     "name": "Bored Ape Yacht Club",
@@ -194,6 +193,12 @@ const featured =[
     "name": "Wassies by Wassies",
     "contract": "0x1d20a51f088492a0f1c57f047a9e30c9ab5c07ea",
     "image": "https://lh3.googleusercontent.com/ju6vDR0sbEvqT0bAb4QPEzYMzpReEllDZ5MlICtxqJu76G5UrZ0cT-w6X3Mzf9e8KXZXJGNIyXGDRAoL-qlaApiJsj27ZdbOY5VvCA=s120"
+  },
+  {
+    "collectionId": "0x9fdb31f8ce3cb8400c7ccb2299492f2a498330a4",
+    "name": "The Colors (thecolors.art)",
+    "contract": "0x9fdb31f8ce3cb8400c7ccb2299492f2a498330a4",
+    "image": "https://lh3.googleusercontent.com/5h5aZjA2Uw9FkTDMIHUqP8ev0xf1OZDIIyxB_iOc1KIac2-0mIvrZyzcyRdLc0AjXs09_HLeDexttgBNsvrcZ4r6bKDV-A4Gt-VLBg=s120"
   },
   {
     "collectionId": "0xca7ca7bcc765f77339be2d648ba53ce9c8a262bd",
