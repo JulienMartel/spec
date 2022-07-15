@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react';
 import { 
-  Box,
-  Heading,
-  Text,
-  Link,
   Flex,
-  Tag,
-  HStack,
   Spinner,
 } from '@chakra-ui/react'
 import { MainTable } from '../components/MainTable';
@@ -68,27 +62,6 @@ export default function Home() {
   }, [])
 
   return <Container isIndex >
-
-    <Flex align="flex-end" mb="7" mt="14" >
-      <Heading size="2xl" mr={3} >
-        ◌ spec
-      </Heading>
- 
-      <Tag size={"sm"} colorScheme='purple'>alpha</Tag>
-    </Flex>
-
-    <Text >
-      Aggregated NFT sales feed & analytics.
-    </Text>
-
-    <HStack divider={<Box mx="4" border="none">|</Box>} mb="24">
-      <Box>
-        <Link isExternal href='#'>twitter</Link>
-      </Box>
-      <Box>
-        <Link isExternal href='#'>discord</Link>
-      </Box>
-    </HStack>
 
     { sales ? <MainTable sales={sales} /> : <MainSpinner /> }
 

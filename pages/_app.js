@@ -2,6 +2,7 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { mode } from '@chakra-ui/theme-tools'
 import Head from 'next/head'
 import { AppWrapper } from '../context/state'
+import { DefaultSeo } from 'next-seo';
 
 const theme = extendTheme({
   styles: {
@@ -19,6 +20,31 @@ const theme = extendTheme({
 function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider theme={theme}>
+      <DefaultSeo
+        title="◌ spec"
+        description="Aggregated NFT sales feed & analytics. See what's going on in the Ethereum blockchain."
+        openGraph={{
+          url: 'https://spec-app.vercel.app/',
+          title: '◌ spec',
+          description: "Aggregated NFT sales feed & analytics. See what's going on in the Ethereum blockchain.",
+          images: [
+            {
+              url: '/spec-og-img2.png',
+              width: 800,
+              height: 600,
+              alt: 'spec',
+              type: 'image/png',
+            },
+          ],
+          site_name: '◌ spec',
+        }}
+        // twitter={{
+        //   handle: '@vendo_deals',
+        //   site: '@vendo',
+        //   cardType: 'summary_large_image', // TODO
+        // }}
+      />
+
       <Head>
         {/* from https://realfavicongenerator.net/favicon_result?file_id=p1g7iechpivd68ej180jsu6g6h6 */}
         <link rel="apple-touch-icon" sizes="76x76" href="/metadata/apple-touch-icon.png" />

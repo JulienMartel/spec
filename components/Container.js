@@ -1,41 +1,69 @@
 import { 
   Flex,
   Container as ChakraContainer,
+  Heading,
+  Tag,
+  Text,
+  HStack,
+  Link,
+  Box,
 } from '@chakra-ui/react'
 import ChangeColorMode from '../components/ChangeColorMode';
 import { NextSeo } from 'next-seo';
+import NextLink from 'next/link'
 
 export const Container = ({ children, isIndex }) => { // TODO add heading from index and new header on other pages
   return <ChakraContainer maxW="container.xl" flexDir="column" > 
-    <Flex pt="4" justifyContent="flex-end">
+    <Flex 
+      pt="4" 
+      justifyContent={isIndex ? "flex-end" : "space-between"}
+      mb={isIndex ? "0" : "20"}
+    >
+      {!isIndex && <NotIndexHeader />}
       <ChangeColorMode />
     </Flex>
 
-    <NextSeo
-      title="◌ spec"
-      description="Aggregated NFT sales feed & analytics. See what's going on in the Ethereum blockchain."
-      openGraph={{
-        url: 'https://spec-app.vercel.app/',
-        title: '◌ spec',
-        description: "Aggregated NFT sales feed & analytics. See what's going on in the Ethereum blockchain.",
-        images: [
-          {
-            url: '/spec-og-img2.png',
-            width: 800,
-            height: 600,
-            alt: 'spec',
-            type: 'image/png',
-          },
-        ],
-        site_name: '◌ spec',
-      }}
-      // twitter={{
-      //   handle: '@vendo_deals',
-      //   site: '@vendo',
-      //   cardType: 'summary_large_image', // TODO
-      // }}
-    />
+    { isIndex && <IndexHeader /> }
 
     {children}
   </ChakraContainer>
+}
+
+const NotIndexHeader = () => {
+  return <Flex align="flex-end" h="min" >
+    <NextLink href="/" passHref>
+      <Link _hover={{textDecoration: "none"}} >
+        <Heading size="xl" mr={3} >
+          ◌ spec
+        </Heading>
+      </Link>
+    </NextLink>
+
+    <Tag size={"sm"} colorScheme='purple'>alpha</Tag>
+  </Flex>
+}
+
+const IndexHeader = () => {
+  return <>
+    <Flex align="flex-end" mb="7" mt="14" >
+      <Heading size="2xl" mr={3} >
+        ◌ spec
+      </Heading>
+
+      <Tag size={"sm"} colorScheme='purple'>alpha</Tag>
+    </Flex>
+
+    <Text >
+      Aggregated NFT sales feed & analytics.
+    </Text>
+
+    <HStack divider={<Box mx="4" border="none">|</Box>} mb="24">
+      <Box>
+        <Link href='#'>twitter</Link>
+      </Box>
+      <Box>
+        <Link href='#'>discord</Link>
+      </Box>
+    </HStack>
+  </>
 }

@@ -29,10 +29,8 @@ const formatter = new Intl.NumberFormat('en-US', {
 })
 
 export const Sale = ({sale}) => {
-  const { ethPrice } = useAppContext()
-
-  // const when = 
   const { token } = sale
+  const { ethPrice } = useAppContext()
 
   return <Tr
     transition="background-color 0.2s"
@@ -78,7 +76,7 @@ export const Sale = ({sale}) => {
       <AddressBadge addr={sale.to} />
     </Td>
     <Td>
-      <Platform source={sale.fillSource} addr={token.contract} nftId={token.tokenId} />
+      <Platform source={sale.fillSource || sale.orderSource} addr={token.contract} nftId={token.tokenId} />
     </Td>
     <Td>
       <Link isExternal href={'https://etherscan.io/tx/' + sale.txHash}>
