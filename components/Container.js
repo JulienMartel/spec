@@ -87,7 +87,7 @@ const IndexHeader = () => {
     </Flex>
 
     <Text >
-      Aggregated NFT sales feed & analytics.
+      NFT analytics tool
     </Text>
 
     <HStack mt="2" mb="24">
@@ -110,5 +110,7 @@ const IndexHeader = () => {
         </Link>
       </Box>
     </HStack>
+
+    <Heading size="md">recent sales</Heading>
   </>
 }
