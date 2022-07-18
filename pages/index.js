@@ -9,7 +9,7 @@ import { Container } from './../components/Container';
 
 export default function Home() {
   const [sales, setSales] = useState(null)
-  const [continuation, setContinuation] = useState(null)
+  const [continuation, setContinuation] = useState([])
   const [loading, setLoading] = useState(false)
   const [collectionFilters, setCollectionFilters] = useState([])
 

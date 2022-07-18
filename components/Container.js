@@ -16,6 +16,7 @@ import {
 import ChangeColorMode from '../components/ChangeColorMode';
 import NextLink from 'next/link'
 import { FaDiscord, FaTwitter } from 'react-icons/fa';
+import { useEffect } from 'react';
 
 export const Container = ({ children, isIndex }) => { // TODO add heading from index and new header on other pages
   return <>
@@ -43,14 +44,26 @@ const DiscordAlert = () => {
     isOpen: isVisible,
     onClose,
     onOpen,
-  } = useDisclosure({ defaultIsOpen: true })
+  } = useDisclosure({ 
+    defaultIsOpen: false,
+    onClose: () => {window.localStorage.setItem('discordAlertClosed', true)},
+  })
+
+  useEffect(() => {
+    const isClosed = window.localStorage.getItem('discordAlertClosed')
+    console.log(isClosed)
+
+    if (!isClosed) {
+      onOpen()
+    }
+  }, [])
 
   return isVisible ? (
     <Alert variant="left-accent" pos="relative" justifyItems="space-between" h="fit-content" colorScheme="purple" justifyContent="center" >
       <Box>
         <Text>
           <Link href='https://discord.gg/ahDJdsaAVY' >join our discord</Link>{" "}
-          to chat, submit bugs, and request features!
+          to submit bugs, request features, or just chat!
         </Text>
       </Box>
       <CloseButton
@@ -78,7 +91,7 @@ const NotIndexHeader = () => {
 
 const IndexHeader = () => {
   return <>
-    <Flex align="flex-end" mb="7" mt="14" >
+    <Flex align="flex-end" mb="6" mt="14" >
       <Heading size="2xl" mr={3} >
         ◌ spec
       </Heading>
@@ -87,7 +100,7 @@ const IndexHeader = () => {
     </Flex>
 
     <Text >
-      NFT analytics tool
+      nft analytics tool
     </Text>
 
     <HStack mt="2" mb="24">

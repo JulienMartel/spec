@@ -127,6 +127,7 @@ const ImageAndName = ({token}) => {
           contract={token.contract} 
           tokenId={token.tokenId} 
           contractName={token.collection.name}
+          quantity={Number(token.amount)}
           {...{contractType, setImage, setName, image, name}} 
         />
     }
@@ -163,7 +164,7 @@ const DisplayTokenName = ({name}) => {
   return <Skeleton>token namey</Skeleton>
 }
 
-const GetMetadata = ({contract, tokenId, setImage, setName, contractType, contractName, image, name}) => {
+const GetMetadata = ({contract, tokenId, setImage, setName, contractType, contractName, image, name, quantity}) => {
   const { data, isError, isLoading } = useContractRead({
     addressOrName: contract,
     contractInterface: ABIs[contractType],
@@ -179,8 +180,10 @@ const GetMetadata = ({contract, tokenId, setImage, setName, contractType, contra
 
         console.log(name, image)
 
+        let quantityDislpay = quantity === 1 ? "" : <Text as="em">{` (x${quantity})`}</Text>
+
         if (!name) {
-          newName ? setName(newName) : setName(contractName + " #" + tokenId)
+          newName ? setName(newName + quantityDislpay) : setName(contractName + " #" + tokenId + quantityDislpay)
         }
         if (!image) {
           image ? setImage(digestDstorageLink(image)) : setImage("#")
