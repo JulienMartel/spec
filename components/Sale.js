@@ -127,7 +127,7 @@ const ImageAndName = ({token}) => {
           contract={token.contract} 
           tokenId={token.tokenId} 
           contractName={token.collection.name}
-          {...{contractType, setImage, setName}} 
+          {...{contractType, setImage, setName, image, name}} 
         />
     }
 
@@ -163,7 +163,7 @@ const DisplayTokenName = ({name}) => {
   return <Skeleton>token namey</Skeleton>
 }
 
-const GetMetadata = ({contract, tokenId, setImage, setName, contractType, contractName}) => {
+const GetMetadata = ({contract, tokenId, setImage, setName, contractType, contractName, image, name}) => {
   const { data, isError, isLoading } = useContractRead({
     addressOrName: contract,
     contractInterface: ABIs[contractType],
@@ -175,12 +175,16 @@ const GetMetadata = ({contract, tokenId, setImage, setName, contractType, contra
     if (data) {
       const getMetadata = async () => {
         const res = await fetch("/api/metadata?uri=" + encodeURI(data)) // do a trytcatch here
-        const {name, image} = await res.json()
-
-        name ? setName(name) : setName(contractName + " #" + tokenId)
-        image ? setImage(digestDstorageLink(image)) : setImage("#")
+        const {name: newName, image: newImage} = await res.json()
 
         console.log(name, image)
+
+        if (!name) {
+          newName ? setName(newName) : setName(contractName + " #" + tokenId)
+        }
+        if (!image) {
+          image ? setImage(digestDstorageLink(image)) : setImage("#")
+        }
       }
       getMetadata()
     }
