@@ -4,6 +4,29 @@ import Head from 'next/head'
 import { AppWrapper } from '../context/state'
 import { DefaultSeo } from 'next-seo';
 
+import {
+  WagmiConfig,
+  createClient,
+  configureChains,
+  chain,
+  defaultChains,
+} from 'wagmi'
+import { infuraProvider } from 'wagmi/providers/infura'
+
+const infuraId = process.env.INFURA_ID
+
+const { provider, webSocketProvider } = configureChains(
+  [chain.mainnet],
+  [infuraProvider({ infuraId})],
+)
+
+const client = createClient({
+  autoConnect: true,
+  provider,
+  webSocketProvider,
+})
+  
+  
 const theme = extendTheme({
   styles: {
     global: props => ({
@@ -11,11 +34,10 @@ const theme = extendTheme({
         color: mode('gray.800', 'whiteAlpha.900')(props),
         bg: mode('white', 'blackAlpha.700')(props),
       },
+    
     }),
   },
 })
-
-
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -57,9 +79,11 @@ function MyApp({ Component, pageProps }) {
         <meta name="msapplication-config" content="/metadata/browserconfig.xml" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
-      <AppWrapper>
-        <Component {...pageProps} />
-      </AppWrapper>
+      <WagmiConfig client={client}>
+        <AppWrapper>
+          <Component {...pageProps} />
+        </AppWrapper>
+      </WagmiConfig>
     </ChakraProvider>
   )
 }

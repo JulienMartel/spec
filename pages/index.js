@@ -48,7 +48,7 @@ export default function Home() {
 
       const result = await fetch("https://api.reservoir.tools/sales/v3?limit=50")
       const { sales, continuation } = await result.json()
-      console.log(sales)
+      console.log(sales, continuation)
   
       setSales(sales)
       setLoading(false)

@@ -7,26 +7,59 @@ import {
   HStack,
   Link,
   Box,
+  Alert,
+  useDisclosure,
+  CloseButton,
+  IconButton,
+  Icon,
 } from '@chakra-ui/react'
 import ChangeColorMode from '../components/ChangeColorMode';
-import { NextSeo } from 'next-seo';
 import NextLink from 'next/link'
+import { FaDiscord, FaTwitter } from 'react-icons/fa';
 
 export const Container = ({ children, isIndex }) => { // TODO add heading from index and new header on other pages
-  return <ChakraContainer maxW="container.xl" flexDir="column" > 
-    <Flex 
-      pt="4" 
-      justifyContent={isIndex ? "flex-end" : "space-between"}
-      mb={isIndex ? "0" : "20"}
-    >
-      {!isIndex && <NotIndexHeader />}
-      <ChangeColorMode />
-    </Flex>
+  return <>
+    <DiscordAlert />
 
-    { isIndex && <IndexHeader /> }
+    <ChakraContainer maxW="container.xl" flexDir="column" > 
+      <Flex 
+        pt="4" 
+        justifyContent={isIndex ? "flex-end" : "space-between"}
+        mb={isIndex ? "0" : "20"}
+      >
+        {!isIndex && <NotIndexHeader />}
+        <ChangeColorMode />
+      </Flex>
 
-    {children}
-  </ChakraContainer>
+      { isIndex && <IndexHeader /> }
+
+      {children}
+    </ChakraContainer>
+  </>
+}
+
+const DiscordAlert = () => {
+  const {
+    isOpen: isVisible,
+    onClose,
+    onOpen,
+  } = useDisclosure({ defaultIsOpen: true })
+
+  return isVisible ? (
+    <Alert variant="left-accent" pos="relative" justifyItems="space-between" h="fit-content" colorScheme="purple" justifyContent="center" >
+      <Box>
+        <Text>
+          <Link href='https://discord.gg/ahDJdsaAVY' >join our discord</Link>{" "}
+          to chat, submit bugs, and request features!
+        </Text>
+      </Box>
+      <CloseButton
+        pos="absolute"
+        right={0}
+        onClick={onClose}
+      />
+    </Alert>
+  ) : null
 }
 
 const NotIndexHeader = () => {
@@ -57,12 +90,24 @@ const IndexHeader = () => {
       Aggregated NFT sales feed & analytics.
     </Text>
 
-    <HStack divider={<Box mx="4" border="none">|</Box>} mb="24">
+    <HStack mt="2" mb="24">
       <Box>
-        <Link href='#'>twitter</Link>
+        <Link isExternal href='https://twitter.com/spec0x'>
+          <IconButton 
+            variant="ghost" 
+            aria-label='twitter' 
+            icon={<Icon w="5" h="5" as={FaTwitter} />}
+          />
+        </Link>
       </Box>
       <Box>
-        <Link href='#'>discord</Link>
+        <Link isExternal href='https://discord.gg/ahDJdsaAVY'>
+          <IconButton 
+              variant="ghost" 
+              aria-label='discord' 
+              icon={<Icon w="5" h="5" as={FaDiscord} />}
+          />
+        </Link>
       </Box>
     </HStack>
   </>
