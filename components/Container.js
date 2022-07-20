@@ -26,7 +26,7 @@ export const Container = ({ children, isIndex }) => { // TODO add heading from i
       <Flex 
         pt="4" 
         justifyContent={isIndex ? "flex-end" : "space-between"}
-        mb={isIndex ? "0" : "20"}
+        mb={isIndex ? "0" : "8"}
       >
         {!isIndex && <NotIndexHeader />}
         <ChangeColorMode />
@@ -51,7 +51,6 @@ const DiscordAlert = () => {
 
   useEffect(() => {
     const isClosed = window.localStorage.getItem('discordAlertClosed')
-    console.log(isClosed)
 
     if (!isClosed) {
       onOpen()
