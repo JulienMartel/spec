@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { 
   Flex,
   Spinner,
+  Button,
+  Box
 } from '@chakra-ui/react'
 import { MainTable } from '../components/MainTable';
 import { Controls } from './../components/Controls'
@@ -9,7 +11,7 @@ import { Container } from './../components/Container';
 
 export default function Home() {
   const [sales, setSales] = useState(null)
-  const [continuation, setContinuation] = useState([])
+  const [continuation, setContinuation] = useState()
   const [loading, setLoading] = useState(false)
   const [collectionFilters, setCollectionFilters] = useState([])
 
@@ -20,41 +22,25 @@ export default function Home() {
   const getSales = async () => {
     setLoading(true)
 
-    if (collectionFilters.length > 0) {
-      const promises = collectionFilters.map(({contract}) => {
-        const limit = Math.round(50/collectionFilters.length)
-        return fetch(`https://api.reservoir.tools/sales/v3?contract=${contract}&limit=${limit}`)
-      })
-      const results = await Promise.all(promises)
-      const data = await Promise.all(results.map(r => r.json()))
-      
-      const sales = data.reduce((acc, cur) => {
-        return [...acc, ...cur.sales]
-      }, [])
+    const result = await fetch(
+      "https://api.reservoir.tools/sales/v3?" +
+      (collectionFilters ? collectionFilters.map(({contract}) => `contract=${contract}`).join("&") + "&" : "") +
+      ( continuation ? "continuation=" + continuation + "&" : "") +
+      "limit=20"
+    )
 
-      const continuations = data.reduce((acc, cur) => { //TODO
-        return [...acc, cur.continuation]
-      }, [])
-      
-      const orderedSales = sales.sort((a, b) => {
-        return new Date(b.timestamp) - new Date(a.timestamp)
-      })
+    const { sales: newSales, continuation: newContinuation } = await result.json()
+    console.log(newSales, newContinuation)
 
-      console.log(orderedSales, continuations)
+    continuation ? setSales(s => {
+      console.log(s)
+      return [...s, ...newSales]
+    }) : setSales(newSales)
+    // setSales(newSales)
 
-      setSales(sales)
-      setLoading(false)
-    } else {
+    newContinuation && setContinuation(newContinuation)
 
-      const result = await fetch("https://api.reservoir.tools/sales/v3?limit=50")
-      const { sales, continuation } = await result.json()
-      console.log(sales, continuation)
-  
-      setSales(sales)
-      setLoading(false)
-    }
-
-    
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -65,7 +51,17 @@ export default function Home() {
 
     { sales ? <MainTable sales={sales} /> : <MainSpinner /> }
 
-    <Controls {...{getSales, loading, setCollectionFilters, collectionFilters}} isInitialLoad={sales === null} />
+    {continuation &&
+      <Flex
+        w="full"
+        justify="center"
+        py="10"
+      >
+        <Button isLoading={loading} onClick={getSales} >load more</Button>
+      </Flex>
+    }
+
+    <Controls {...{getSales, loading, setCollectionFilters, collectionFilters, setContinuation}} isInitialLoad={sales === null} />
 
   </Container>
 }

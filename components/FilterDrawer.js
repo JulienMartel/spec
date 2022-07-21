@@ -32,13 +32,16 @@ import { useEffect, useRef, useState } from 'react'
 import featured from './../featured.json'
 
 
-export const FilterDrawer = ({setCollectionFilters, collectionFilters}) => {
+export const FilterDrawer = ({setCollectionFilters, collectionFilters, setContinuation}) => {
   const btnRef = useRef()
   const [collections, setCollections] = useState(collectionFilters)
   const toast = useToast()
 
   const { isOpen, onOpen, onClose } = useDisclosure({
-    onClose: () => setCollections([]),
+    onClose: () => {
+      setContinuation()
+      setCollections([])
+    },
     onOpen: () => setCollections(collectionFilters),
   })
 

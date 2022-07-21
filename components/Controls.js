@@ -9,7 +9,7 @@ import { RepeatIcon, ArrowUpIcon } from '@chakra-ui/icons'
 import { FilterDrawer } from './FilterDrawer'
 
 
-export const Controls = ({getSales, loading, isInitialLoad, setCollectionFilters, collectionFilters}) => {
+export const Controls = ({getSales, loading, isInitialLoad, setCollectionFilters, collectionFilters, setContinuation}) => {
   return <Stack 
     zIndex="99" 
     position="fixed" 
@@ -50,7 +50,7 @@ export const Controls = ({getSales, loading, isInitialLoad, setCollectionFilters
     </Tooltip>
     <Tooltip placement='left' label="filter">
       <Box>
-        <FilterDrawer {...{setCollectionFilters, collectionFilters}} />
+        <FilterDrawer {...{setCollectionFilters, collectionFilters, setContinuation}} />
       </Box>
     </Tooltip>
   </Stack>

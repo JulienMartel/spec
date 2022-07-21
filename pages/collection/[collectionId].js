@@ -15,8 +15,8 @@ import { VolStats } from "../../components/VolStats";
 import { FpStats } from "../../components/FpStats";
 import { ShowDescription } from "../../components/ShowDescription";
 
-const Collection = collection => {
-  console.log(collection)
+const Collection = (props) => {
+  console.log(props)
   const {
     name,
     metadata,
@@ -26,13 +26,13 @@ const Collection = collection => {
     floorSaleChange,
     floorAsk,
     rank,
-  } = collection
+  } = props
 
   return <Container>
     <Box 
       w="full"
       minH="80"
-      bgImage={`url(${metadata.bannerImageUrl})`}
+      bgImage={`url(${metadata.bannerImageUrl || "#"})`}
       bgPos="center"
       bgSize="cover"
     />
@@ -97,10 +97,13 @@ export default Collection;
 export async function getServerSideProps(context) {
   const { collectionId } = context.query
 
-  const result = await fetch(`https://api.reservoir.tools/collection/v3?id=${collectionId}&includeTopBid=true`)
+  const result = await fetch(
+    `https://api.reservoir.tools/collection/v3?id=${collectionId}&includeTopBid=true`, 
+    {timeout: 5000}
+  )
   const { collection } = await result.json()
 
   return {
-    props: collection
+    props: {...collection}
   }
 }

@@ -35,7 +35,7 @@ export const FpStats = ({floorSale, floorSaleChange, floorAsk}) => {
       <FpStat
         key={type}
         label={label}
-        value={floorSale[type].toFixed(2)}
+        value={floorSale[type]?.toFixed(2)}
         floorChange={floorSaleChange[type]}
       />
     ))}
@@ -48,7 +48,7 @@ const FpStat = ({label, value, usdVal, floorChange}) => {
     <StatLabel>{label}</StatLabel>
     <StatNumber>
       <Icon mr={1} boxSize="4" as={FaEthereum} />
-      {value}
+      {value || "—"}
     </StatNumber>
     <StatHelpText>
       {usdVal && usdVal}

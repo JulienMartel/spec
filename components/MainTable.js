@@ -23,7 +23,7 @@ export const MainTable = ({ sales }) => (
       </Thead>
       <Tbody>
         {
-          sales.map(sale => <Sale key={sale.id} sale={sale} />)
+          sales.map(sale => <Sale key={sale.id + String(sale.logIndex)} sale={sale} />)
         }
       </Tbody>
     </Table>

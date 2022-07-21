@@ -1,3 +1,19 @@
+// https://github.com/reservoirprotocol/marketplace/blob/main/lib/optmizeImage.ts
+export const optimizeImage = (imageHref, width) => {
+  if (!imageHref) return ''
+
+  let url = new URL(imageHref)
+  // Optimize google images
+  if (url.host === 'lh3.googleusercontent.com') {
+    if (imageHref.includes('=s') || imageHref.includes('=w')) {
+      let newImage = imageHref.split('=')
+      return `${newImage[0]}=w${width}`
+    }
+    return `${imageHref}=w${width}`
+  }
+  return imageHref
+}
+
 export const digestDstorageLink = uri => {
   const protocol = uri.split(":")[0]
   let link

@@ -20,6 +20,7 @@ import { Platform } from './Platform'
 import NextLink from 'next/link'
 import { useAppContext } from '../context/state'
 import { useEffect, useState } from 'react'
+import { optimizeImage } from '../utils'
 
 import { useContractRead, useContractReads } from 'wagmi'
 import { digestDstorageLink } from '../utils'
@@ -80,8 +81,6 @@ const useGetContractType = ({token}) => {
     functionName: 'supportsInterface',
   }
 
-  // custom hook that include all of this and returns the token name, image (immediately if it has it, if not go fethc it)
-
   const { data, isError, isLoading, error } = useContractReads({
     contracts: [
       {
@@ -114,20 +113,19 @@ const useGetContractType = ({token}) => {
   return { contractType }
 }
 
-const ImageAndName = ({token}) => {
+const ImageAndName = ({token, amount}) => {
   const [name, setName] = useState(token.name)
   const [image, setImage] = useState(token.image)
 
   const { contractType } = useGetContractType({token})
 
-  
   return <Flex>
     { contractType && 
         <GetMetadata 
           contract={token.contract} 
           tokenId={token.tokenId} 
           contractName={token.collection.name}
-          quantity={Number(token.amount)}
+          quantity={Number(amount)}
           {...{contractType, setImage, setName, image, name}} 
         />
     }
@@ -151,7 +149,7 @@ const ImageAndName = ({token}) => {
 const DisplayImage = ({image}) => {
 
   if (image) {
-    return <Image boxSize="14" src={image} fallback={<ImageFallback />} rounded="md" />
+    return <Image boxSize="14" src={optimizeImage(image, 64)} fallback={<ImageFallback />} rounded="md" />
   } else {
     return <Skeleton boxSize="14" rounded="md" />
   }
@@ -172,21 +170,22 @@ const GetMetadata = ({contract, tokenId, setImage, setName, contractType, contra
     args: [tokenId],
   })
 
+
   useEffect(() => {
     if (data) {
       const getMetadata = async () => {
-        const res = await fetch("/api/metadata?uri=" + encodeURI(data)) // do a trytcatch here
+        const res = await fetch("/api/metadata?uri=" + encodeURI(data), {timeout: 4000}) // do a trytcatch here
         const {name: newName, image: newImage} = await res.json()
 
-        console.log(name, image)
+        name || image && console.log(name, image)
 
-        let quantityDislpay = quantity === 1 ? "" : <Text as="em">{` (x${quantity})`}</Text>
+        let quantityDislpay = quantity === 1 ? "" : ` (x${quantity})`
 
         if (!name) {
           newName ? setName(newName + quantityDislpay) : setName(contractName + " #" + tokenId + quantityDislpay)
         }
         if (!image) {
-          image ? setImage(digestDstorageLink(image)) : setImage("#")
+          newImage ? setImage(digestDstorageLink(newImage)) : setImage("")
         }
       }
       getMetadata()
@@ -198,7 +197,15 @@ const GetMetadata = ({contract, tokenId, setImage, setName, contractType, contra
 }
 
 export const Sale = ({sale}) => {
-  const { token } = sale
+  const { token, amount } = sale
+
+  if (!token) {
+    return null
+  }
+  if (token.contract === "0x495f947276749ce646f68ac8c248420045cb7b5e") { // OpenSea Shared Storefront
+    return null
+  }
+
   const { ethPrice } = useAppContext()
 
   return <Tr
@@ -207,7 +214,7 @@ export const Sale = ({sale}) => {
   >
 
     <Td>
-      <ImageAndName {...{token}} />
+      <ImageAndName {...{token, amount}} />
     </Td>
     <Td isNumeric w="min-content">
       <Box>
