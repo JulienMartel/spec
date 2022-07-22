@@ -38,7 +38,7 @@ export default function Home() {
     }) : setSales(newSales)
     // setSales(newSales)
 
-    newContinuation && setContinuation(newContinuation)
+    setContinuation(newContinuation)
 
     setLoading(false)
   }

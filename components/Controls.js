@@ -39,7 +39,10 @@ export const Controls = ({getSales, loading, isInitialLoad, setCollectionFilters
     <Tooltip placement='left' label="refresh">
       <Box>
         <IconButton
-          onClick={getSales}
+          onClick={() => {
+            setContinuation()
+            getSales()
+          }}
           aria-label='Refresh' 
           icon={<RepeatIcon />}
           size="lg"
