@@ -3,58 +3,55 @@ import {
   Tooltip,
   Box,
   IconButton,
-  Stack,
+  HStack,
+  Icon,
+  Button
 } from '@chakra-ui/react'
 import { RepeatIcon, ArrowUpIcon } from '@chakra-ui/icons'
 import { FilterDrawer } from './FilterDrawer'
 
 
 export const Controls = ({getSales, loading, isInitialLoad, setCollectionFilters, collectionFilters, setContinuation}) => {
-  return <Stack 
-    zIndex="99" 
-    position="fixed" 
-    p={3} 
-    m={3} 
-    bottom={0} 
-    right={0} 
-    w="min" 
-    bg={useColorModeValue("#f7f7f7", "#0f0f0f")} 
+  return <Box 
     rounded="lg" 
+    py={4} 
+    bg={useColorModeValue("white", "#020202")} 
+    pos="sticky" 
+    top="0" 
+    zIndex={10}
   >
-    <Tooltip placement='left' label="back to top">
-      <Box>
-        <IconButton
-          onClick={() => {
-            window.scrollTo({
-              top: 0,
-              behavior: 'smooth' // for smoothly scrolling
-            });
-          }}
-          aria-label='Back to top' 
-          icon={<ArrowUpIcon />}
-          size="lg"
-        />
-      </Box>
-    </Tooltip>
-    <Tooltip placement='left' label="refresh">
-      <Box>
-        <IconButton
-          onClick={() => {
-            setContinuation()
-            getSales()
-          }}
-          aria-label='Refresh' 
-          icon={<RepeatIcon />}
-          size="lg"
-          isLoading={loading && !isInitialLoad}
-          disabled={isInitialLoad}
-        />
-      </Box>
-    </Tooltip>
-    <Tooltip placement='left' label="filter">
-      <Box>
-        <FilterDrawer {...{setCollectionFilters, collectionFilters, setContinuation}} />
-      </Box>
-    </Tooltip>
-  </Stack>
+    <HStack>
+      <Button
+        colorScheme="purple"
+        variant="outline"
+        rightIcon={<ArrowUpIcon />}
+        onClick={() => {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // for smoothly scrolling
+          });
+        }}
+        aria-label='Back to top' 
+      >
+        top
+      </Button>
+
+      <Button
+        colorScheme="purple"
+        variant="outline"
+        rightIcon={<RepeatIcon />}
+        onClick={() => {
+          setContinuation()
+          getSales({isRefresh: true})
+        }}
+        aria-label='Refresh' 
+        isLoading={loading && !isInitialLoad}
+        disabled={isInitialLoad}
+      >
+        refresh
+      </Button>
+
+      <FilterDrawer {...{setCollectionFilters, collectionFilters, setContinuation}} />
+    </HStack>
+  </Box>
 }

@@ -1,4 +1,4 @@
-import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import { useColorModeValue } from '@chakra-ui/react'
 import { mode } from '@chakra-ui/theme-tools'
 import Head from 'next/head'
 import { AppWrapper } from '../context/state'
@@ -7,7 +7,6 @@ import { useEffect } from 'react'
 import Script from 'next/script'
 import { useRouter } from 'next/router'
 import * as gtag from '../lib/gtag'
-
 import {
   WagmiConfig,
   createClient,
@@ -16,31 +15,35 @@ import {
   defaultChains,
 } from 'wagmi'
 import { infuraProvider } from 'wagmi/providers/infura'
+import { publicProvider } from 'wagmi/providers/public';
+import '@rainbow-me/rainbowkit/styles.css';
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+  lightTheme,
+  darkTheme,
+  midnightTheme
+} from '@rainbow-me/rainbowkit';
+import { Chakra } from '../Chakra';
+
 
 const infuraId = process.env.INFURA_ID
 
-const { provider, webSocketProvider } = configureChains(
+const { provider, webSocketProvider, chains } = configureChains(
   [chain.mainnet],
-  [infuraProvider({ infuraId})],
+  [infuraProvider({infuraId}), publicProvider()],
 )
+
+const { connectors } = getDefaultWallets({
+  appName: 'spec',
+  chains
+});
 
 const client = createClient({
   autoConnect: true,
   provider,
   webSocketProvider,
-})
-  
-  
-const theme = extendTheme({
-  styles: {
-    global: props => ({
-      body: {
-        color: mode('gray.800', 'whiteAlpha.900')(props),
-        bg: mode('white', 'blackAlpha.700')(props),
-      },
-    
-    }),
-  },
+  connectors,
 })
 
 function MyApp({ Component, pageProps }) {
@@ -59,7 +62,7 @@ function MyApp({ Component, pageProps }) {
   }, [router.events])
 
   return (
-    <ChakraProvider theme={theme}>
+    <Chakra cookies={pageProps.cookies}>
 
       {/* Global Site Tag (gtag.js) - Google Analytics */}
       <Script
@@ -118,13 +121,32 @@ function MyApp({ Component, pageProps }) {
         <meta name="msapplication-config" content="/metadata/browserconfig.xml" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
-      <WagmiConfig client={client}>
-        <AppWrapper>
-          <Component {...pageProps} />
-        </AppWrapper>
-      </WagmiConfig>
-    </ChakraProvider>
+      <AppWrapper>
+        <WagmiConfig client={client}>
+          <RKP>
+            <Component {...pageProps} />
+          </RKP>
+        </WagmiConfig>
+      </AppWrapper>
+    </Chakra>
   )
 }
 
 export default MyApp
+
+const RKP = ({children}) => {
+  return (
+    <RainbowKitProvider
+      chains={chains}
+      theme={useColorModeValue(
+        lightTheme({accentColor: "#805AD5", accentColorForeground: "white"}), 
+        midnightTheme({accentColor: "#D6BCFA", accentColorForeground: "black"})
+      )}
+    >
+      {children}
+    </RainbowKitProvider>
+  )
+}
+
+
+export { getServerSideProps } from "./../Chakra";

@@ -12,32 +12,68 @@ import {
   CloseButton,
   IconButton,
   Icon,
+  useColorModeValue,
 } from '@chakra-ui/react'
-import ChangeColorMode from '../components/ChangeColorMode';
 import NextLink from 'next/link'
 import { FaDiscord, FaTwitter } from 'react-icons/fa';
 import { useEffect } from 'react';
+import { SidebarWithHeader } from './SidebarWithHeader';
+import ChangeColorMode from './ChangeColorMode';
 
 export const Container = ({ children, isIndex }) => { // TODO add heading from index and new header on other pages
+  if (isIndex) return <ChakraContainer pos="relative" maxW="container.xl" flexDir="column">
+    <IndexHeader />
+    {children}
+  </ChakraContainer>
+
   return <>
     <DiscordAlert />
 
-    <ChakraContainer maxW="container.xl" flexDir="column" > 
-      <Flex 
-        pt="4" 
-        justifyContent={isIndex ? "flex-end" : "space-between"}
-        mb={isIndex ? "0" : "8"}
-      >
-        {!isIndex && <NotIndexHeader />}
-        <ChangeColorMode />
-      </Flex>
+    <SidebarWithHeader>
+      <ChakraContainer pos="relative" maxW="full" flexDir="column" > 
 
-      { isIndex && <IndexHeader /> }
+        {children}
 
-      {children}
-    </ChakraContainer>
+      </ChakraContainer>
+    </SidebarWithHeader>
   </>
 }
+
+const IndexHeader = () => {
+  return <Flex
+    pos="sticky" 
+    top="0" 
+    py={4} 
+    bg={useColorModeValue("white", "#020202")} 
+    zIndex="9999"
+    align="center"
+    justify="space-between"
+  >
+    <Flex align="flex-end">
+      <NextLink href="/" passHref>
+        <Link _hover={{textDecoration: "none"}} >
+          <Heading size="2xl" mr={3} >
+            ◌ spec
+          </Heading>
+        </Link>
+      </NextLink>
+
+      <Tag size={"sm"} colorScheme='purple'>alpha</Tag>
+    </Flex>
+
+    <ChangeColorMode />
+  </Flex> 
+}
+
+// const IndexHeader = () => {
+//   return <Flex
+//     justify='space-between'
+//     py={5}
+
+//   >
+//     <Text></Text>
+//   </Flex>
+// }
 
 const DiscordAlert = () => {
   const {
@@ -74,55 +110,43 @@ const DiscordAlert = () => {
   ) : null
 }
 
-const NotIndexHeader = () => {
-  return <Flex align="flex-end" h="min" >
-    <NextLink href="/" passHref>
-      <Link _hover={{textDecoration: "none"}} >
-        <Heading size="xl" mr={3} >
-          ◌ spec
-        </Heading>
-      </Link>
-    </NextLink>
 
-    <Tag size={"sm"} colorScheme='purple'>alpha</Tag>
-  </Flex>
-}
 
-const IndexHeader = () => {
-  return <>
-    <Flex align="flex-end" mb="6" mt="14" >
-      <Heading size="2xl" mr={3} >
-        ◌ spec
-      </Heading>
+// const IndexHeader = () => {
+//   return <>
+//     <Flex align="flex-end" mb="6" mt="14" >
+//       <Heading size="2xl" mr={3} >
+//         ◌ spec
+//       </Heading>
 
-      <Tag size={"sm"} colorScheme='purple'>alpha</Tag>
-    </Flex>
+//       <Tag size={"sm"} colorScheme='purple'>alpha</Tag>
+//     </Flex>
 
-    <Text >
-      nft analytics tool
-    </Text>
+//     <Text >
+//       nft analytics tool
+//     </Text>
 
-    <HStack mt="2" mb="24">
-      <Box>
-        <Link isExternal href='https://twitter.com/spec0x'>
-          <IconButton 
-            variant="ghost" 
-            aria-label='twitter' 
-            icon={<Icon w="5" h="5" as={FaTwitter} />}
-          />
-        </Link>
-      </Box>
-      <Box>
-        <Link isExternal href='https://discord.gg/ahDJdsaAVY'>
-          <IconButton 
-              variant="ghost" 
-              aria-label='discord' 
-              icon={<Icon w="5" h="5" as={FaDiscord} />}
-          />
-        </Link>
-      </Box>
-    </HStack>
+//     <HStack mt="2" mb="24">
+//       <Box>
+//         <Link isExternal href='https://twitter.com/spec0x'>
+//           <IconButton 
+//             variant="ghost" 
+//             aria-label='twitter' 
+//             icon={<Icon w="5" h="5" as={FaTwitter} />}
+//           />
+//         </Link>
+//       </Box>
+//       <Box>
+//         <Link isExternal href='https://discord.gg/ahDJdsaAVY'>
+//           <IconButton 
+//               variant="ghost" 
+//               aria-label='discord' 
+//               icon={<Icon w="5" h="5" as={FaDiscord} />}
+//           />
+//         </Link>
+//       </Box>
+//     </HStack>
 
-    <Heading size="md">recent sales</Heading>
-  </>
-}
+//     <Heading size="md">recent sales</Heading>
+//   </>
+// }

@@ -1,73 +1,112 @@
-import { useEffect, useState } from 'react';
-import { 
-  Flex,
-  Spinner,
-  Button,
-  Box
-} from '@chakra-ui/react'
-import { MainTable } from '../components/MainTable';
-import { Controls } from './../components/Controls'
+import { Heading, VStack, Box, Text, HStack, Stack, Button, Highlight, useColorModeValue, Flex, Link, IconButton, Icon } from '@chakra-ui/react';
 import { Container } from './../components/Container';
+import NextLink from 'next/link';
+import { SplashBackground } from '../components/SplashBackground';
+import ChangeColorMode from '../components/ChangeColorMode';
+import { About } from '../components/About';
+import { PremiumFeatures } from '../components/PremiumFeatures';
+import { FaDiscord, FaTwitter } from 'react-icons/fa';
+import { ArrowForwardIcon } from '@chakra-ui/icons';
+
 
 export default function Home() {
-  const [sales, setSales] = useState(null)
-  const [continuation, setContinuation] = useState()
-  const [loading, setLoading] = useState(false)
-  const [collectionFilters, setCollectionFilters] = useState([])
 
-  useEffect(() => {
-    getSales()
-  }, [collectionFilters])
-  
-  const getSales = async () => {
-    setLoading(true)
 
-    const result = await fetch(
-      "https://api.reservoir.tools/sales/v3?" +
-      (collectionFilters ? collectionFilters.map(({contract}) => `contract=${contract}`).join("&") + "&" : "") +
-      ( continuation ? "continuation=" + continuation + "&" : "") +
-      "limit=20"
-    )
+  return <>
 
-    const { sales: newSales, continuation: newContinuation } = await result.json()
-    console.log(newSales, newContinuation)
+    <Container isIndex >  
 
-    continuation ? setSales(s => {
-      console.log(s)
-      return [...s, ...newSales]
-    }) : setSales(newSales)
-    // setSales(newSales)
+      <Stack flexDir={["column-reverse",,,"row"]} align="center" h={["70vh",,,"50vh"]} mb="64" mt={[0,,,"36"]} >
+        <VStack w={["100%",,,"50%"]} align="start" spacing="4" mt={[6,,,0]}>
+          <Heading
+            fontSize={{ base: '3xl', sm: '4xl', lg: '6xl' }}
+          >
+            <Highlight
+              query='analytics'
+              styles={{ 
+                px: 3, 
+                pb: 2, 
+                rounded: 'full', 
+                bg: useColorModeValue("purple.500","purple.200"), 
+                color: useColorModeValue("white","gray.800"),
+              }}
+            >
+              nft analytics
+            </Highlight>
+          
+            <Text color={useColorModeValue("purple.500","purple.200")}>
+              for pros
+            </Text>
+          </Heading>
 
-    setContinuation(newContinuation)
+          <Text fontSize="xl" maxW="container.sm">
+            all the best info about nfts on eth, for <Text as="b">free</Text>. we visualize data in a simple way, and provide you with the best tools to get the most out of it.
+          </Text>
 
-    setLoading(false)
-  }
+          <HStack>
+            <Button 
+              size="lg"
+              onClick={() => {
+                window.scrollTo({
+                  top: window.innerHeight - 200,
+                  behavior: 'smooth' // for smoothly scrolling
+                });
+              }}
+            >
+              learn more
+            </Button>
+            
+            <NextLink href="/top">
+              <Button size="lg" colorScheme="purple" rightIcon={<ArrowForwardIcon />}>enter app</Button>
+            </NextLink>
+          </HStack>
 
-  useEffect(() => {
-    getSales()
-  }, [])
+        </VStack>
 
-  return <Container isIndex >
 
-    { sales ? <MainTable sales={sales} /> : <MainSpinner /> }
+        <SplashBackground />
+      </Stack>
 
-    {continuation &&
-      <Flex
-        w="full"
-        justify="center"
-        py="10"
-      >
-        <Button isLoading={loading} onClick={getSales} >load more</Button>
-      </Flex>
-    }
 
-    <Controls {...{getSales, loading, setCollectionFilters, collectionFilters, setContinuation}} isInitialLoad={sales === null} />
 
-  </Container>
+      <About />
+      <PremiumFeatures />
+      <Footer />
+
+    </Container>
+  </>
 }
 
-const MainSpinner = () => {
-  return <Flex w="full" justify="center" mt="40">
-    <Spinner size='xl' />
-  </Flex>
-}
+const Footer = () => <Flex
+  w="full"
+  py="4"
+  justify="space-between"
+  align="center"
+>
+  <Text>© {new Date().getFullYear()} ◌ spec - all rights reserved</Text>
+
+  <Socials />
+</Flex>
+
+export const Socials = () => <HStack>
+  <Box>
+    <Link isExternal href='https://twitter.com/spec0x'>
+      <IconButton 
+        variant="ghost" 
+        aria-label='twitter' 
+        size="lg"
+        icon={<Icon w="5" h="5" as={FaTwitter} />}
+      />
+    </Link>
+  </Box>
+  <Box>
+    <Link isExternal href='https://discord.gg/ahDJdsaAVY'>
+      <IconButton 
+          variant="ghost" 
+          aria-label='discord' 
+          size="lg"
+          icon={<Icon w="5" h="5" as={FaDiscord} />}
+      />
+    </Link>
+  </Box>
+</HStack>

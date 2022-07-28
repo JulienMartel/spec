@@ -9,11 +9,13 @@ import {
   AccordionButton,
   AccordionIcon,
   AccordionPanel,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { Container } from "../../components/Container";
 import { VolStats } from "../../components/VolStats";
 import { FpStats } from "../../components/FpStats";
 import { ShowDescription } from "../../components/ShowDescription";
+import { EthLogo } from "../../components/EthLogo";
 
 const Collection = (props) => {
   console.log(props)
@@ -31,7 +33,7 @@ const Collection = (props) => {
   return <Container>
     <Box 
       w="full"
-      minH="80"
+      minH={useBreakpointValue([40,,80])}
       bgImage={`url(${metadata.bannerImageUrl || "#"})`}
       bgPos="center"
       bgSize="cover"
@@ -67,7 +69,7 @@ const Collection = (props) => {
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel pb={4}>
-
+  
             <VolStats {...{volume, volumeChange, rank}} />
 
           </AccordionPanel>

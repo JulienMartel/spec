@@ -16,13 +16,13 @@ export const ShowDescription = ({desc}) => {
       mt="8"
       maxH={show ? "unset" : "6"}
       dangerouslySetInnerHTML={{__html: marked(desc)}} 
-      sx={{"a": {color: "blue.500"}, "p": {marginBottom: "1rem"}}}
+      sx={{"a": {color: "blue.500"}, "p": {marginBottom: "1rem", "&:last-child": {marginBottom: "0"}}}}
       overflow="hidden"
       textOverflow="ellipsis"
+      overflowWrap="break-word"
     />
     <Text 
       display="inline"
-      mt="2" 
       onClick={() => setShow(!show)} 
       cursor="pointer"
       fontSize="smaller"

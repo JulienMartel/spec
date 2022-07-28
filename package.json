@@ -13,6 +13,9 @@
     "@chakra-ui/theme-tools": "^2.0.2",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
+    "@rainbow-me/rainbowkit": "^0.4.4",
+    "@react-spring/three": "^9.5.2",
+    "@react-three/fiber": "^8.2.1",
     "dayjs": "^1.11.3",
     "ethers": "^5.6.9",
     "framer-motion": "^6.3.16",
@@ -23,6 +26,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
+    "three": "^0.142.0",
     "wagmi": "^0.5.9",
     "web3": "^1.7.4"
   },

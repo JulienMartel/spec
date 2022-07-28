@@ -24,6 +24,7 @@ import { optimizeImage } from '../utils'
 
 import { useContractRead, useContractReads } from 'wagmi'
 import { digestDstorageLink } from '../utils'
+import { EthLogo } from './EthLogo'
 
 
 dayjs.extend(relativeTime)
@@ -218,10 +219,10 @@ export const Sale = ({sale}) => {
     </Td>
     <Td isNumeric w="min-content">
       <Box>
-        <Text fontWeight="medium" display="inline" >
+        <EthLogo orderSide={sale.orderSide} />
+        <Text ml="1" fontWeight="medium" display="inline" >
           {sale.price}
         </Text>
-        <EthLogo orderSide={sale.orderSide} />
       </Box>
       <Skeleton isLoaded={ethPrice}>
         <Text fontWeight="medium" fontSize="smaller" color={useColorModeValue("blackAlpha.700", "whiteAlpha.600")}>
@@ -249,14 +250,4 @@ export const Sale = ({sale}) => {
 
 const ImageFallback = () => {
   return <Flex justify="center" align="center" boxSize="14" rounded="lg" bg={useColorModeValue("blackAlpha.50","whiteAlpha.100")} >?</Flex>
-}
-
-const EthLogo = ({orderSide}) => {
-  return <Box display="inline" ml="0.5">
-    <Icon 
-      mb="-0.5" 
-      color={orderSide === "ask" ? null : "#f72585"} 
-      as={FaEthereum} 
-    />
-  </Box>
 }

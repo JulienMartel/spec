@@ -77,14 +77,16 @@ export const FilterDrawer = ({setCollectionFilters, collectionFilters, setContin
 
 
   return <>
-    <IconButton
+    <Button
+      colorScheme="purple"
+      variant={collectionFilters.length > 0 ? null : "outline"}
+      rightIcon={<FaFilter />}
       onClick={onOpen}
       aria-label='Filter' 
-      icon={<FaFilter />}
-      size="lg"
       ref={btnRef}
-      colorScheme={collectionFilters.length > 0 ? "purple" : null}
-    />
+    >
+      filter
+    </Button>
 
     <Drawer
       isOpen={isOpen}
