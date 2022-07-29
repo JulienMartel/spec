@@ -23,7 +23,7 @@ export const VolStats = ({volume, volumeChange, rank}) => {
       <VolStat
         key={type}
         label={label}
-        value={abbrNum(volume[type].toFixed(2))}
+        value={abbrNum(volume[type])}
         rank={rank[type]}
         volumeChange={type === 'allTime' ? null : volumeChange[type]}
       />

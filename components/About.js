@@ -104,7 +104,7 @@ const stats = [
     title: '5+',
     content: (
       <>
-        <StatsText>marteplaces</StatsText> on ethereum being watched with more platforms and chains to come 😁
+        <StatsText>marketplaces</StatsText> on ethereum being watched with more platforms and chains to come 😁
       </>
     ),
   },

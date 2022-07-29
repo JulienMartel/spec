@@ -1,4 +1,4 @@
-import { useColorModeValue } from '@chakra-ui/react'
+import { ChakraProvider, extendTheme, useColorModeValue } from '@chakra-ui/react'
 import { mode } from '@chakra-ui/theme-tools'
 import Head from 'next/head'
 import { AppWrapper } from '../context/state'
@@ -24,7 +24,6 @@ import {
   darkTheme,
   midnightTheme
 } from '@rainbow-me/rainbowkit';
-import { Chakra } from '../Chakra';
 
 
 const infuraId = process.env.INFURA_ID
@@ -46,6 +45,18 @@ const client = createClient({
   connectors,
 })
 
+const theme = extendTheme({
+  styles: {
+    global: props => ({
+      body: {
+        color: mode('gray.800', 'whiteAlpha.900')(props),
+        bg: mode('white', '#020202')(props),
+      },
+    
+    }),
+  },
+})
+
 function MyApp({ Component, pageProps }) {
 
   const router = useRouter()
@@ -62,7 +73,7 @@ function MyApp({ Component, pageProps }) {
   }, [router.events])
 
   return (
-    <Chakra cookies={pageProps.cookies}>
+    <ChakraProvider theme={theme}>
 
       {/* Global Site Tag (gtag.js) - Google Analytics */}
       <Script
@@ -128,7 +139,7 @@ function MyApp({ Component, pageProps }) {
           </RKP>
         </WagmiConfig>
       </AppWrapper>
-    </Chakra>
+    </ChakraProvider>
   )
 }
 
@@ -147,6 +158,3 @@ const RKP = ({children}) => {
     </RainbowKitProvider>
   )
 }
-
-
-export { getServerSideProps } from "./../Chakra";

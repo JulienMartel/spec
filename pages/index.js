@@ -88,7 +88,7 @@ const Footer = () => <Flex
   <Socials />
 </Flex>
 
-export const Socials = () => <HStack>
+export const Socials = ({...rest}) => <HStack {...rest}>
   <Box>
     <Link isExternal href='https://twitter.com/spec0x'>
       <IconButton 

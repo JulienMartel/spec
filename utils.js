@@ -39,12 +39,13 @@ export const digestDstorageLink = uri => {
 
 // https://stackoverflow.com/questions/2685911/is-there-a-way-to-round-numbers-into-a-reader-friendly-format-e-g-1-1k
 export const abbrNum = (number, decPlaces=0) => {
+  number = Number(number);
 
   if (number < 1000 && number > 100) {
-    number = number?.toFixed(0)
+    number = number?.toFixed(0) || number
   }
   if (number < 100 && number > 1) {
-    number = number?.toFixed(2)
+    number = number?.toFixed(2) || number
   }
   // 2 decimal places => 100, 3 => 1000, etc
   decPlaces = Math.pow(10,decPlaces);

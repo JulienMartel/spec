@@ -72,10 +72,6 @@ export const SidebarWithHeader = ({children}) => {
           <SidebarContent onClose={onClose} />
         </DrawerContent>
 
-        <DrawerFooter >
-          hello
-          <Socials />
-        </DrawerFooter>
       </Drawer>
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
@@ -89,24 +85,32 @@ export const SidebarWithHeader = ({children}) => {
 const SidebarContent = ({ onClose, ...rest }) => {
   return (
     <Box
-      bg={useColorModeValue('white', 'blackAlpha.700')}
+      bg={useColorModeValue('white', '#020202')}
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
       w={{ base: 'full', md: 60 }}
       pos="fixed"
       h="full"
       {...rest}>
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
 
-        <Logo />
+      <Flex flexDir="column" justify="space-between" w="full" h="full">
 
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+        <Box w="full" h="full">
+          <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+            <Logo />
+            <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+          </Flex>
+
+          {linkItems.map((link) => (
+          <NavItem key={link.name} href={link.href} icon={link.icon}>
+            {link.name}
+          </NavItem>
+          ))}
+        </Box>
+
+        <Socials m="8" />
       </Flex>
-      {linkItems.map((link) => (
-        <NavItem key={link.name} href={link.href} icon={link.icon}>
-          {link.name}
-        </NavItem>
-      ))}
+
     </Box>
   );
 };
