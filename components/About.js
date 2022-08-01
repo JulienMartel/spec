@@ -36,7 +36,7 @@ export const About = () => {
           in-depth & simple
         </Heading>
         <Text fontSize={'xl'} >
-         ◌ spec makes it easy to get your favorite information about nfts on eth. We provide you with fast, clean interfaces to get the most out of that data.
+          ◌ spec makes it easy to get your favorite data about nfts on ethereum. we provide you with fast, clean interfaces to get the most out of that data.
         </Text>
       </Box>
 
@@ -59,7 +59,10 @@ export const About = () => {
     <Box w={["100%",,,"50%"]} py={12} >
       <Stack 
         h="full" 
-        bg={useColorModeValue("blackAlpha.50", "whiteAlpha.200")} 
+        // bg={useColorModeValue("blackAlpha.50", "whiteAlpha.200")} 
+        border="1px solid"
+        borderColor={useColorModeValue("blackAlpha.300", "whiteAlpha.300")}
+        shadow={useColorModeValue("lg", "dark-lg")}
         minH='300px' 
         rounded={'lg'} 
         p={8}
@@ -75,18 +78,49 @@ export const About = () => {
 
         <Text textAlign="center" fontSize={'lg'}>subscribe to get a weekly recap on whats happening in eth nfts</Text>
 
-        <HStack pt={3} w="full">
-          <Input
-            type="email"
-            placeholder="your email"
-            rounded="full"
-            size="lg"
+        <form
+          action="https://www.getrevue.co/profile/spec/add_subscriber" 
+          method="post"
+          id="revue-form" 
+          name="revue-form" 
+          target="_blank"
+        >
+          <HStack pt={3} w="full">
+            <Input
+              type="email"
+              placeholder="your email"
+              rounded="full"
+              size="lg"
+              name="member[email]"
+              id="member_email"
+              // variant={"filled"}
+            />
+            <Button 
+              type='submit'
+              size="lg" 
+              px={8} 
+              colorScheme="purple" 
+              rounded="full"
+              value="Subscribe" 
+              name="member[subscribe]"
+              id="member_submit"
+            >
+              subscribe
+            </Button>
 
-          />
-          <Button size="lg" px={10} colorScheme="purple" rounded="full" >
-            subscribe
-          </Button>
-        </HStack>
+          </HStack>
+
+          <Text color={useColorModeValue("blackAlpha.700", "whiteAlpha.600")} mt={3} textAlign={'center'}>
+            By subscribing, you agree with Revue’s{' '}
+            <a target="_blank" href="https://www.getrevue.co/terms">
+              Terms of Service
+            </a>
+            {' '}and{' '}
+            <a target="_blank" href="https://www.getrevue.co/privacy">
+              Privacy Policy
+            </a>.
+          </Text>
+        </form>
 
       </Stack>
     </Box>
