@@ -16,7 +16,7 @@ export default function Home() {
 
     <Container isIndex >  
 
-      <Stack flexDir={["column-reverse",,,"row"]} align="center" h={["70vh",,,"50vh"]} mb="64" mt={[0,,,"36"]} >
+      <Stack flexDir={["column-reverse",,,"row"]} align="center" h={["70vh",,,"50vh"]} mb="64" mt={[12,,,"36"]} >
         <VStack w={["100%",,,"50%"]} align="start" spacing="4" mt={[6,,,0]}>
           <Heading
             fontSize={{ base: '3xl', sm: '4xl', lg: '6xl' }}
