@@ -56,7 +56,7 @@ export default function Home() {
               learn more
             </Button>
             
-            <NextLink href="/top">
+            <NextLink href="/sales">
               <Button size="lg" colorScheme="purple" rightIcon={<ArrowForwardIcon />}>enter app</Button>
             </NextLink>
           </HStack>

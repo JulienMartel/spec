@@ -44,8 +44,8 @@ import { Socials } from '../pages';
 
 
 const linkItems = [
-  { name: 'Top', icon: MdLeaderboard, href: '/top' },
   { name: 'Sale feed', icon: MdDynamicFeed, href: '/sales' },
+  { name: 'Top', icon: MdLeaderboard, href: '/top' },
   { name: 'Watchlists', icon: AiFillEye, href: '/watchlists' },
   { name: 'Portfolio', icon: BsBriefcaseFill, href: '/portfolio' },
   // { name: 'Become Pro', icon: AiFillEye, href: '/watchlists' },
