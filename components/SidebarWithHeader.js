@@ -33,7 +33,7 @@ import {
   FiBell,
   FiChevronDown,
 } from 'react-icons/fi';
-import { MdDynamicFeed, MdLeaderboard } from 'react-icons/md';
+import { MdDynamicFeed, MdLeaderboard, MdOutlineTrendingUp } from 'react-icons/md';
 import { AiFillEye } from 'react-icons/ai';
 import { BsBriefcaseFill } from 'react-icons/bs';
 import NextLink from 'next/link';
@@ -46,8 +46,9 @@ import { Socials } from '../pages';
 const linkItems = [
   { name: 'Sale feed', icon: MdDynamicFeed, href: '/sales' },
   { name: 'Top', icon: MdLeaderboard, href: '/top' },
-  { name: 'Watchlists', icon: AiFillEye, href: '/watchlists' },
+  { name: 'Charts', icon: MdOutlineTrendingUp, href: 'https://charts.spec.science' },
   { name: 'Portfolio', icon: BsBriefcaseFill, href: '/portfolio' },
+  // { name: 'Watchlists', icon: AiFillEye, href: '/watchlists' },
   // { name: 'Become Pro', icon: AiFillEye, href: '/watchlists' },
   // { name: 'Settings', icon: FiSettings, href: '/settings' },
 ];
